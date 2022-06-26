@@ -1,9 +1,7 @@
 import { useMantineColorScheme, SegmentedControl, Center, Box } from '@mantine/core';
 import { BiSun as Sun, BiMoon as Moon } from 'react-icons/bi';
 
-type Props = {};
-
-const ThemeToggle = (props: Props) => {
+const ThemeToggle = () => {
 	const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
 	return (
