@@ -25,11 +25,12 @@ RUN yarn build
 
 # SERVE
 
-FROM scratch
+FROM busybox
 
 COPY --from=go-builder /app/main server
 
 COPY --from=node-builder /app/dist client
+COPY client/assets/json2go-logo.png client/assets/json2go-logo.png
 
 ENV PORT=80
 ENV GO_ENV="production"
