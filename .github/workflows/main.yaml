@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'feature/*'
 
 # Kill the workflow if the PR is updated with a new commit
 concurrency:
