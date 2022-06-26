@@ -12,14 +12,24 @@ ENV GOOS=linux
 
 RUN go build main.go
 
+# BUILD CLIENT
+
+FROM node:16.13-alpine as node-builder
+
+WORKDIR /app
+COPY client/ ./
+
+RUN yarn --prefer-offline
+
+RUN yarn build
+
 # SERVE
 
 FROM scratch
 
 COPY --from=go-builder /app/main server
 
-# TODO: Add build step for React client
-COPY server/client client
+COPY --from=node-builder /app/dist client
 
 ENV PORT=80
 ENV GO_ENV="production"

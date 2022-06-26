@@ -7,7 +7,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: 'https://json2go-converter-4ipc5ijfwq-uc.a.run.app/api',
+				target: 'https://json2go-converter-4ipc5ijfwq-uc.a.run.app',
 				changeOrigin: true,
 			},
 		},
