@@ -34,5 +34,5 @@ jobs:
       - name: Pull Request Comments
         uses: dmsi-io/gha-pull-request@v1.2
         with:
-          GHA_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHA_ACCESS_TOKEN: ${{ secrets.GHA_ACCESS_TOKEN }}
           url: ${{ steps.deploy.outputs.url }}
