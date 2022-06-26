@@ -1,0 +1,38 @@
+name: Google Cloud Run Revision Deploy
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Kill the workflow if the PR is updated with a new commit
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    name: Build and Deploy to Cloud Run
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Deploy to Cloud Run
+        uses: dmsi-io/gha-cloudrun-deploy@v1
+        id: deploy
+        with:
+          GCP_IDENTITY_PROVIDER: ${{ secrets.GCP_IDENTITY_PROVIDER }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Pull Request Comments
+        uses: dmsi-io/gha-pull-request@v1.2
+        with:
+          GHA_ACCESS_TOKEN: ${{ secrets.GHA_ACCESS_TOKEN }}
+          url: ${{ steps.deploy.outputs.url }}
