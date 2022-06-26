@@ -9,7 +9,6 @@ import (
 func CorsConfigMiddleware(c *gin.Context) {
 	config := cors.DefaultConfig()
 
-	config.AllowAllOrigins = true
 	config.AllowCredentials = true
 
 	config = corsOrigin(c, config)
