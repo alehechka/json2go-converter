@@ -1,20 +1,22 @@
-import { ActionIcon, Button, Container, Grid, Group, JsonInput } from '@mantine/core';
+import { ActionIcon, Button, Container, Grid, Group, JsonInput, List } from '@mantine/core';
 import { Prism } from '@mantine/prism';
 import { useBooleanToggle } from '@mantine/hooks';
 import { useCallback, useState } from 'react';
 import generateTypes from '../api/generateTypes';
-import { BiCopy as Copy, BiDownload as Download } from 'react-icons/bi';
+import { BiDownload as Download } from 'react-icons/bi';
 import fileDownload from 'js-file-download';
+import type { Error } from '../api/errors';
 
 function JSON2Go() {
 	const [jsonPayload, setJSONPayload] = useState('');
 	const [submitting, setSubmitting] = useBooleanToggle(false);
 	const [goTypes, setGoTypes] = useState('');
+	const [errors, setErrors] = useState<Error[]>([]);
 
 	const fetchGoTypes = useCallback(() => {
 		setSubmitting(true);
 		generateTypes(jsonPayload)
-			.then((res) => setGoTypes(res))
+			.then((res) => (typeof res === 'string' ? setGoTypes(res) : setErrors(res.errors)))
 			.finally(() => setSubmitting(false));
 	}, [jsonPayload]);
 
@@ -41,13 +43,21 @@ function JSON2Go() {
 				label='JSON Payload'
 				placeholder='Textarea will autosize to fit the content'
 				validationError='Invalid json format'
-				formatOnBlur
 				autosize
 				minRows={20}
 				required
 				value={jsonPayload}
 				onChange={setJSONPayload}
+				onFocus={() => setErrors([])}
 			/>
+
+			{errors.length > 0 && (
+				<List withPadding styles={(theme) => ({ root: { color: theme.colors.red[6], fontSize: 14 } })}>
+					{errors.map((error, index) => (
+						<List.Item key={index}>{error.detail}</List.Item>
+					))}
+				</List>
+			)}
 
 			<Grid justify='flex-end' mt={15} mr={0}>
 				<Group>
