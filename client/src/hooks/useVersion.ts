@@ -1,19 +1,23 @@
 import { useBooleanToggle } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import getVersion from '../api/getVersion';
 
 const useVersion = () => {
 	const [version, setVersion] = useState<string>('');
-	const [fetching, setFetching] = useBooleanToggle(false);
+	const [fetching, setFetching] = useBooleanToggle(true);
 
-	useEffect(() => {
+	const fetchVersion = useCallback(() => {
 		setFetching(true);
 		getVersion()
 			.then(setVersion)
 			.finally(() => setFetching(false));
 	}, []);
 
-	return [version, fetching] as const;
+	useEffect(() => {
+		fetchVersion();
+	}, []);
+
+	return [version, fetching, fetchVersion] as const;
 };
 
 export default useVersion;
