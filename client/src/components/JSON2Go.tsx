@@ -1,24 +1,12 @@
 import { ActionIcon, Button, Container, Grid, Group, JsonInput, List } from '@mantine/core';
 import { Prism } from '@mantine/prism';
-import { useBooleanToggle } from '@mantine/hooks';
-import { useCallback, useState } from 'react';
-import generateTypes from '../api/generateTypes';
 import { BiDownload as Download } from 'react-icons/bi';
 import fileDownload from 'js-file-download';
-import type { Error } from '../api/errors';
+import useGenerateTypes from '../hooks/useGenerateTypes';
 
 function JSON2Go() {
-	const [jsonPayload, setJSONPayload] = useState('');
-	const [submitting, setSubmitting] = useBooleanToggle(false);
-	const [goTypes, setGoTypes] = useState('');
-	const [errors, setErrors] = useState<Error[]>([]);
-
-	const fetchGoTypes = useCallback(() => {
-		setSubmitting(true);
-		generateTypes(jsonPayload)
-			.then((res) => (typeof res === 'string' ? setGoTypes(res) : setErrors(res.errors)))
-			.finally(() => setSubmitting(false));
-	}, [jsonPayload]);
+	const { jsonPayload, setJSONPayload, submitting, goTypes, fetchGoTypes, errors, clearState, clearErrors } =
+		useGenerateTypes();
 
 	return (
 		<Container>
@@ -27,14 +15,7 @@ function JSON2Go() {
 					<Button onClick={fetchGoTypes} loading={submitting}>
 						Generate
 					</Button>
-					<Button
-						color='red'
-						variant='light'
-						onClick={() => {
-							setJSONPayload('');
-							setGoTypes('');
-						}}
-					>
+					<Button color='red' variant='light' onClick={clearState}>
 						Clear
 					</Button>
 				</Group>
@@ -48,7 +29,7 @@ function JSON2Go() {
 				required
 				value={jsonPayload}
 				onChange={setJSONPayload}
-				onFocus={() => setErrors([])}
+				onFocus={clearErrors}
 			/>
 
 			{errors.length > 0 && (
