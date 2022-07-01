@@ -3,7 +3,7 @@ module github.com/alehechka/json2go-converter
 go 1.18
 
 require (
-	github.com/alehechka/json2go v0.1.2
+	github.com/alehechka/json2go v0.2.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/static v0.0.1
 	github.com/gin-gonic/gin v1.8.1
