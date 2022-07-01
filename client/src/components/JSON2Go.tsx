@@ -3,10 +3,21 @@ import { Prism } from '@mantine/prism';
 import { BiDownload as Download } from 'react-icons/bi';
 import fileDownload from 'js-file-download';
 import useGenerateTypes from '../hooks/useGenerateTypes';
+import SettingsPopover from './SettingsPopover';
 
 function JSON2Go() {
-	const { jsonPayload, setJSONPayload, submitting, goTypes, fetchGoTypes, errors, clearState, clearErrors } =
-		useGenerateTypes();
+	const {
+		jsonPayload,
+		setJSONPayload,
+		submitting,
+		goTypes,
+		fetchGoTypes,
+		errors,
+		clearState,
+		clearErrors,
+		generateSettings,
+		setGenerateSettings,
+	} = useGenerateTypes();
 
 	return (
 		<Container>
@@ -18,6 +29,7 @@ function JSON2Go() {
 					<Button color='red' variant='light' onClick={clearState}>
 						Clear
 					</Button>
+					<SettingsPopover onChange={setGenerateSettings} />
 				</Group>
 			</Grid>
 			<JsonInput
@@ -43,7 +55,7 @@ function JSON2Go() {
 			<Grid justify='flex-end' mt={15} mr={0}>
 				<Group>
 					<ActionIcon
-						onClick={() => fileDownload(goTypes, 'types.go', 'text/go; charset=utf-8')}
+						onClick={() => fileDownload(goTypes, generateSettings?.outputFile ?? 'types.go', 'text/go; charset=utf-8')}
 						disabled={!!!goTypes}
 						radius='xl'
 						variant='light'
