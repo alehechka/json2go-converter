@@ -38,19 +38,19 @@ const SettingsPopover = ({ onChange }: Props) => {
 						label='Package Name'
 						value={packageName}
 						onChange={(e) => setPackageName(e.target.value)}
-						placeholder={defaults['packageName']}
+						placeholder={defaults?.packageName}
 					/>
 					<TextInput
 						label='Root Object Name'
 						value={root}
 						onChange={(e) => setRoot(e.target.value)}
-						placeholder={defaults['root']}
+						placeholder={defaults?.root}
 					/>
 					<TextInput
 						label='Output File Name'
 						value={outputFile}
 						onChange={(e) => setOutputFile(e.target.value)}
-						placeholder={defaults['outputFile']}
+						placeholder={defaults?.outputFile}
 					/>
 				</Stack>
 			</Container>

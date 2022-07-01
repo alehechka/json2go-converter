@@ -1,6 +1,13 @@
 import status from './status';
 
-const getDefaults = (): Promise<Record<string, string>> =>
+export type Defaults = {
+	outputFile: string;
+	packageName: string;
+	root: string;
+	timeFormat: string;
+};
+
+const getDefaults = (): Promise<Defaults> =>
 	fetch('/api/defaults')
 		.then(status)
 		.then((res) => res.json());

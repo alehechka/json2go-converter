@@ -1,9 +1,9 @@
 import { useBooleanToggle } from '@mantine/hooks';
 import { useCallback, useEffect, useState } from 'react';
-import getDefaults from '../api/getDefaults';
+import getDefaults, { Defaults } from '../api/getDefaults';
 
 const useDefaults = () => {
-	const [defaults, setDefaults] = useState<Record<string, string>>({});
+	const [defaults, setDefaults] = useState<Defaults>();
 	const [fetching, setFetching] = useBooleanToggle(true);
 
 	const fetchDefaults = useCallback(() => {
