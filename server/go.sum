@@ -1,5 +1,9 @@
 github.com/alehechka/json2go v0.1.0 h1:J5jUTGX67hq+IPOs4DfjL1PqBKynlmqJpPK6+ILw5pg=
 github.com/alehechka/json2go v0.1.0/go.mod h1:dEMFgd15Q4wq6qyvK9KMJUOvhGQpUoo3HlXBEFbr7NI=
+github.com/alehechka/json2go v0.1.1 h1:WHn6LbsifsEcabXhlI/bYyjLqL7uNUTgjwtQFsfQsTI=
+github.com/alehechka/json2go v0.1.1/go.mod h1:dEMFgd15Q4wq6qyvK9KMJUOvhGQpUoo3HlXBEFbr7NI=
+github.com/alehechka/json2go v0.1.2 h1:FecEcu6Ml9Xf+I56YMGW4oCuVU0DKTdVuSSLisC0Lo0=
+github.com/alehechka/json2go v0.1.2/go.mod h1:dEMFgd15Q4wq6qyvK9KMJUOvhGQpUoo3HlXBEFbr7NI=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/dave/astrid v0.0.0-20170323122508-8c2895878b14/go.mod h1:Sth2QfxfATb/nW4EsrSi2KyJmbcniZ8TgTaji17D6ms=
 github.com/dave/brenda v1.1.0/go.mod h1:4wCUr6gSlu5/1Tk7akE5X7UorwiQ8Rij0SKH3/BGMOM=
