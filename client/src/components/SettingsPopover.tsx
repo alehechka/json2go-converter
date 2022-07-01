@@ -3,6 +3,7 @@ import { useBooleanToggle, useLocalStorage } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { BsGear as Settings } from 'react-icons/bs';
 import { GenerateTypesConfig } from '../api/generateTypes';
+import useDefaults from '../hooks/useDefaults';
 
 type Props = {
 	onChange?: (values: GenerateTypesConfig) => void;
@@ -13,6 +14,7 @@ const SettingsPopover = ({ onChange }: Props) => {
 	const [packageName, setPackageName] = useLocalStorage({ key: 'json2go:packageName' });
 	const [root, setRoot] = useLocalStorage({ key: 'json2go:root' });
 	const [outputFile, setOutputFile] = useLocalStorage({ key: 'json2go:outputFile' });
+	const [defaults] = useDefaults();
 
 	useEffect(() => {
 		onChange?.({ packageName, root, outputFile });
@@ -36,19 +38,19 @@ const SettingsPopover = ({ onChange }: Props) => {
 						label='Package Name'
 						value={packageName}
 						onChange={(e) => setPackageName(e.target.value)}
-						placeholder='main'
+						placeholder={defaults['packageName']}
 					/>
 					<TextInput
 						label='Root Object Name'
 						value={root}
 						onChange={(e) => setRoot(e.target.value)}
-						placeholder='Root'
+						placeholder={defaults['root']}
 					/>
 					<TextInput
 						label='Output File Name'
 						value={outputFile}
 						onChange={(e) => setOutputFile(e.target.value)}
-						placeholder='types.go'
+						placeholder={defaults['outputFile']}
 					/>
 				</Stack>
 			</Container>
