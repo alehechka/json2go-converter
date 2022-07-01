@@ -1,9 +1,6 @@
 package rest
 
 import (
-	"net/http"
-
-	"github.com/alehechka/json2go"
 	"github.com/alehechka/json2go-converter/ginshared"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
@@ -24,5 +21,7 @@ func RegisterHandlers(engine *gin.Engine) {
 	router := engine.Group("/api")
 
 	router.POST("/generate", build)
-	router.GET("/version", func(ctx *gin.Context) { ctx.Data(http.StatusOK, "text/plain", []byte(json2go.Version)) })
+	router.GET("/version", getVersion)
+	router.GET("/time-formats", getTimeFormats)
+	router.GET("/defaults", getDefaults)
 }

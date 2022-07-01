@@ -1,8 +1,10 @@
-import { Popover, TextInput, ActionIcon, Container, Stack } from '@mantine/core';
+import { Popover, TextInput, ActionIcon, Container, Stack, Autocomplete } from '@mantine/core';
 import { useBooleanToggle, useLocalStorage } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { BsGear as Settings } from 'react-icons/bs';
 import { GenerateTypesConfig } from '../api/generateTypes';
+import useDefaults from '../hooks/useDefaults';
+import useTimeFormats from '../hooks/useTimeFormats';
 
 type Props = {
 	onChange?: (values: GenerateTypesConfig) => void;
@@ -13,10 +15,13 @@ const SettingsPopover = ({ onChange }: Props) => {
 	const [packageName, setPackageName] = useLocalStorage({ key: 'json2go:packageName' });
 	const [root, setRoot] = useLocalStorage({ key: 'json2go:root' });
 	const [outputFile, setOutputFile] = useLocalStorage({ key: 'json2go:outputFile' });
+	const [timeFormat, setTimeFormat] = useLocalStorage({ key: 'json2go:timeFormat' });
+	const [defaults] = useDefaults();
+	const [timeFormats] = useTimeFormats();
 
 	useEffect(() => {
-		onChange?.({ packageName, root, outputFile });
-	}, [packageName, root, outputFile]);
+		onChange?.({ packageName, root, outputFile, timeFormat });
+	}, [packageName, root, outputFile, timeFormat]);
 
 	return (
 		<Popover
@@ -36,19 +41,27 @@ const SettingsPopover = ({ onChange }: Props) => {
 						label='Package Name'
 						value={packageName}
 						onChange={(e) => setPackageName(e.target.value)}
-						placeholder='main'
+						placeholder={defaults?.packageName}
 					/>
 					<TextInput
 						label='Root Object Name'
 						value={root}
 						onChange={(e) => setRoot(e.target.value)}
-						placeholder='Root'
+						placeholder={defaults?.root}
 					/>
 					<TextInput
 						label='Output File Name'
 						value={outputFile}
 						onChange={(e) => setOutputFile(e.target.value)}
-						placeholder='types.go'
+						placeholder={defaults?.outputFile}
+					/>
+					<Autocomplete
+						label='Time Format'
+						description={<a href='https://pkg.go.dev/time#Parse'>See docs for more details</a>}
+						placeholder={defaults?.timeFormat}
+						data={Object.keys(timeFormats)}
+						value={timeFormat}
+						onChange={setTimeFormat}
 					/>
 				</Stack>
 			</Container>

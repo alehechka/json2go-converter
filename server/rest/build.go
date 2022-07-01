@@ -11,15 +11,15 @@ import (
 
 func build(c *gin.Context) {
 	packageName := c.DefaultQuery("packageName", gen.DefaultPackage)
-
 	rootName := c.DefaultQuery("root", gen.DefaultRootName)
-
 	outputFileName := c.DefaultQuery("outputFile", gen.DefaultOutputFile)
+	timeFormat := c.DefaultQuery("timeFormat", gen.DefaultTimeFormat)
 
 	types, err := gen.New().ReadBytes(c.Request.Body).Build(&gen.Config{
 		RootName:       rootName,
 		PackageName:    packageName,
 		OutputFileName: outputFileName,
+		TimeFormat:     timeFormat,
 	})
 
 	if ginshared.ShouldAbortWithError(c)(http.StatusBadRequest, err) {
