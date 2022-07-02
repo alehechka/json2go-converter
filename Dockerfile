@@ -19,7 +19,7 @@ FROM node:16.13-alpine as node-builder
 WORKDIR /app
 COPY client/ ./
 
-RUN yarn --prefer-offline
+RUN yarn install --prefer-offline --frozen-lockfile
 
 RUN yarn build
 
@@ -30,7 +30,7 @@ FROM busybox
 COPY --from=go-builder /app/main server
 
 COPY --from=node-builder /app/dist client
-COPY client/assets/json2go-logo.png client/assets/json2go-logo.png
+ADD client/assets/* client/assets/
 
 ENV PORT=80
 ENV GO_ENV="production"
