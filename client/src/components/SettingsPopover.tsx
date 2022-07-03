@@ -1,4 +1,4 @@
-import { Popover, TextInput, ActionIcon, Container, Stack, Autocomplete } from '@mantine/core';
+import { Popover, TextInput, ActionIcon, Container, Stack, Autocomplete, Text } from '@mantine/core';
 import { useBooleanToggle, useLocalStorage } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { BsGear as Settings } from 'react-icons/bs';
@@ -57,7 +57,11 @@ const SettingsPopover = ({ onChange }: Props) => {
 					/>
 					<Autocomplete
 						label='Time Format'
-						description={<a href='https://pkg.go.dev/time#Parse'>See docs for more details</a>}
+						description={
+							<Text variant='link' component='a' size='xs' href='https://pkg.go.dev/time#Parse'>
+								See docs for more details
+							</Text>
+						}
 						placeholder={defaults?.timeFormat}
 						data={Object.keys(timeFormats)}
 						value={timeFormat}
