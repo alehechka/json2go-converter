@@ -1,14 +1,22 @@
 import { ColorScheme, ColorSchemeProvider, MantineProvider } from '@mantine/core';
-import { useColorScheme, useToggle } from '@mantine/hooks';
-import { FC, ReactNode } from 'react';
+import { useColorScheme, useLocalStorage, useToggle } from '@mantine/hooks';
+import { ReactNode, useEffect } from 'react';
 
 type Props = {
 	children?: ReactNode;
 };
 
-const ThemeProvider: FC<Props> = ({ children }) => {
+const ThemeProvider = ({ children }: Props) => {
 	const defaultColorScheme = useColorScheme();
-	const [colorScheme, toggleColorScheme] = useToggle<ColorScheme>(defaultColorScheme, ['dark', 'light']);
+	const [localColorScheme, setLocalColorScheme] = useLocalStorage<ColorScheme>({ key: 'json2go:colorScheme' });
+	const [colorScheme, toggleColorScheme] = useToggle<ColorScheme>(localColorScheme || defaultColorScheme, [
+		'dark',
+		'light',
+	]);
+
+	useEffect(() => {
+		setLocalColorScheme(colorScheme);
+	}, [colorScheme]);
 
 	return (
 		<MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
