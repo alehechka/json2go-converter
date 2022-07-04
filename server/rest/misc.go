@@ -21,9 +21,11 @@ func getTimeFormats(ctx *gin.Context) {
 
 func getDefaults(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"packageName": gen.DefaultPackage,
-		"root":        gen.DefaultRootName,
-		"outputFile":  gen.DefaultOutputFile,
-		"timeFormat":  gen.DefaultTimeFormat,
+		"packageName":  gen.DefaultPackage,
+		"root":         gen.DefaultRootName,
+		"outputFile":   gen.DefaultOutputFile,
+		"timeFormat":   gen.DefaultTimeFormat,
+		"alphabetical": "false",
+		"omitempty":    "false",
 	})
 }
