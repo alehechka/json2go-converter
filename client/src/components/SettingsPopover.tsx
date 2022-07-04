@@ -1,4 +1,4 @@
-import { Popover, TextInput, ActionIcon, Container, Stack, Autocomplete, Text } from '@mantine/core';
+import { Popover, TextInput, ActionIcon, Container, Stack, Autocomplete, Text, Checkbox } from '@mantine/core';
 import { useBooleanToggle, useLocalStorage } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { BsGear as Settings } from 'react-icons/bs';
@@ -11,17 +11,23 @@ type Props = {
 };
 
 const SettingsPopover = ({ onChange }: Props) => {
+	const [defaults] = useDefaults();
+	const [timeFormats] = useTimeFormats();
+
 	const [popoverOpen, setPopoverOpen] = useBooleanToggle(false);
 	const [packageName, setPackageName] = useLocalStorage({ key: 'json2go:packageName' });
 	const [root, setRoot] = useLocalStorage({ key: 'json2go:root' });
 	const [outputFile, setOutputFile] = useLocalStorage({ key: 'json2go:outputFile' });
 	const [timeFormat, setTimeFormat] = useLocalStorage({ key: 'json2go:timeFormat' });
-	const [defaults] = useDefaults();
-	const [timeFormats] = useTimeFormats();
+	const [alphabetical, setAlphabetical] = useLocalStorage({
+		key: 'json2go:alphabetical',
+		defaultValue: defaults?.alphabetical,
+	});
+	const [omitempty, setOmitempty] = useLocalStorage({ key: 'json2go:omitempty', defaultValue: defaults?.omitempty });
 
 	useEffect(() => {
-		onChange?.({ packageName, root, outputFile, timeFormat });
-	}, [packageName, root, outputFile, timeFormat]);
+		onChange?.({ packageName, root, outputFile, timeFormat, alphabetical, omitempty });
+	}, [packageName, root, outputFile, timeFormat, alphabetical, omitempty]);
 
 	return (
 		<Popover
@@ -66,6 +72,16 @@ const SettingsPopover = ({ onChange }: Props) => {
 						data={Object.keys(timeFormats)}
 						value={timeFormat}
 						onChange={setTimeFormat}
+					/>
+					<Checkbox
+						label='Sort alphabetically'
+						checked={alphabetical === 'true'}
+						onChange={(event) => setAlphabetical(event?.currentTarget.checked ? 'true' : 'false')}
+					/>
+					<Checkbox
+						label='Omit Empty tags'
+						checked={omitempty === 'true'}
+						onChange={(event) => setOmitempty(event?.currentTarget.checked ? 'true' : 'false')}
 					/>
 				</Stack>
 			</Container>

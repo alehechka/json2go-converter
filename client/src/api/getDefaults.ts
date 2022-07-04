@@ -5,6 +5,8 @@ export type Defaults = {
 	packageName: string;
 	root: string;
 	timeFormat: string;
+	alphabetical: string;
+	omitempty: string;
 };
 
 const getDefaults = (): Promise<Defaults> =>

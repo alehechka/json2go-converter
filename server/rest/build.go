@@ -14,12 +14,16 @@ func build(c *gin.Context) {
 	rootName := c.DefaultQuery("root", gen.DefaultRootName)
 	outputFileName := c.DefaultQuery("outputFile", gen.DefaultOutputFile)
 	timeFormat := c.DefaultQuery("timeFormat", gen.DefaultTimeFormat)
+	omitempty := c.DefaultQuery("omitempty", "false")
+	alphabetical := c.DefaultQuery("alphabetical", "false")
 
 	types, err := gen.New().ReadBytes(c.Request.Body).Build(&gen.Config{
 		RootName:       rootName,
 		PackageName:    packageName,
 		OutputFileName: outputFileName,
 		TimeFormat:     timeFormat,
+		OmitEmpty:      omitempty == "true",
+		Alphabetical:   alphabetical == "true",
 	})
 
 	if ginshared.ShouldAbortWithError(c)(http.StatusBadRequest, err) {
