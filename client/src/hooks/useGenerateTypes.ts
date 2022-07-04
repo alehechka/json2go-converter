@@ -19,12 +19,15 @@ const useGenerateTypes = () => {
 		clearErrors();
 	};
 
-	const fetchGoTypes = useCallback(() => {
-		setSubmitting(true);
-		generateTypes(jsonPayload, generateSettings)
-			.then((res) => (typeof res === 'string' ? setGoTypes(res) : setErrors(res.errors)))
-			.finally(() => setSubmitting(false));
-	}, [jsonPayload, generateSettings]);
+	const fetchGoTypes = useCallback(
+		(data?: string) => {
+			setSubmitting(true);
+			generateTypes(data ?? jsonPayload, generateSettings)
+				.then((res) => (typeof res === 'string' ? setGoTypes(res) : setErrors(res.errors)))
+				.finally(() => setSubmitting(false));
+		},
+		[jsonPayload, generateSettings]
+	);
 
 	return {
 		jsonPayload,

@@ -24,7 +24,7 @@ function JSON2Go() {
 		<Container>
 			<Grid justify='flex-end' mr={0}>
 				<Group position='center' my='xl'>
-					<Button onClick={fetchGoTypes} loading={submitting}>
+					<Button onClick={() => fetchGoTypes()} loading={submitting}>
 						Generate
 					</Button>
 					<Button color='red' variant='light' onClick={clearState}>
@@ -33,7 +33,7 @@ function JSON2Go() {
 					<URLFetchPopover
 						onSubmit={(data) => {
 							setJSONPayload(data);
-							fetchGoTypes();
+							fetchGoTypes(data);
 						}}
 					/>
 					<SettingsPopover onChange={setGenerateSettings} />
