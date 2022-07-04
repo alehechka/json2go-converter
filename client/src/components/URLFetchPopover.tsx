@@ -2,7 +2,7 @@ import { ActionIcon, Button, Container, Group, Popover, TextInput } from '@manti
 import { useBooleanToggle } from '@mantine/hooks';
 import { useCallback, useState } from 'react';
 import { BiLink as Link } from 'react-icons/bi';
-import getURL from '../api/getURL';
+import useFetchURL from '../hooks/useFetchURL';
 
 type Props = {
 	onSubmit: (data: string) => void;
@@ -11,15 +11,13 @@ type Props = {
 const URLFetchPopover = ({ onSubmit }: Props) => {
 	const [popoverOpen, setPopoverOpen] = useBooleanToggle(false);
 	const [url, setURL] = useState<string>('');
-	const [hasError, setHasError] = useBooleanToggle(false);
+	const [fetchURL, fetching, hasError, clearError] = useFetchURL();
 
 	const handleSubmit = useCallback(() => {
-		getURL(url)
-			.then((data) => {
-				onSubmit(data);
-				setPopoverOpen(false);
-			})
-			.catch(() => setHasError(true));
+		fetchURL(url).then((data) => {
+			onSubmit(data);
+			setPopoverOpen(false);
+		});
 	}, [url]);
 
 	return (
@@ -46,10 +44,11 @@ const URLFetchPopover = ({ onSubmit }: Props) => {
 								handleSubmit();
 							}
 						}}
-						onFocus={() => setHasError(false)}
+						onFocus={clearError}
 						error={hasError && 'Failed to fetch resource from URL'}
+						disabled={fetching}
 					/>
-					<Button mt={hasError ? 2 : 26} onClick={handleSubmit} disabled={!url}>
+					<Button mt={hasError ? 2 : 26} onClick={handleSubmit} disabled={!url} loading={fetching}>
 						Fetch
 					</Button>
 				</Group>
