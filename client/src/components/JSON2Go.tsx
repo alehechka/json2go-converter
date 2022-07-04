@@ -4,6 +4,7 @@ import { BiDownload as Download } from 'react-icons/bi';
 import fileDownload from 'js-file-download';
 import useGenerateTypes from '../hooks/useGenerateTypes';
 import SettingsPopover from './SettingsPopover';
+import URLFetchPopover from './URLFetchPopover';
 
 function JSON2Go() {
 	const {
@@ -29,14 +30,18 @@ function JSON2Go() {
 					<Button color='red' variant='light' onClick={clearState}>
 						Clear
 					</Button>
+					<URLFetchPopover
+						onSubmit={(data) => {
+							setJSONPayload(data);
+							fetchGoTypes();
+						}}
+					/>
 					<SettingsPopover onChange={setGenerateSettings} />
 				</Group>
 			</Grid>
 			<JsonInput
 				label='JSON Payload'
-				placeholder='Textarea will autosize to fit the content'
 				validationError='Invalid json format'
-				autosize
 				minRows={20}
 				required
 				value={jsonPayload}
