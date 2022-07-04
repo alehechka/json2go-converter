@@ -6,7 +6,7 @@ import status from './status';
 export type GenerateTypesConfig = Partial<Defaults>;
 
 const generateTypes = (data: any, config?: GenerateTypesConfig): Promise<string | ErrorResponse> =>
-	fetch('/api/generate?' + new URLSearchParams(sanitizeMap<string>(config)), {
+	fetch('/api/generate?' + new URLSearchParams(sanitizeMap(config)), {
 		method: 'POST',
 		body: typeof data === 'string' ? data : JSON.stringify(data),
 	})
