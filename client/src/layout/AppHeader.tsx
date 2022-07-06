@@ -3,9 +3,14 @@ import ThemeToggle from '../components/ThemeToggle';
 import useVersion from '../hooks/useVersion';
 import { BsGithub as Github } from 'react-icons/bs';
 import { BiGitCompare as GitCompare } from 'react-icons/bi';
+import { useMemo } from 'react';
+
+const repoURL = 'https://github.com/alehechka/json2go-converter';
 
 const AppHeader = () => {
 	const [version, loading] = useVersion();
+
+	const releaseURL = useMemo(() => `https://github.com/alehechka/json2go/releases/tag/${version}`, [version]);
 
 	return (
 		<Header height={60} p='md'>
@@ -16,7 +21,7 @@ const AppHeader = () => {
 						{loading ? (
 							<Loader variant='dots' />
 						) : (
-							<Text component='a' color='dimmed' href={`https://github.com/alehechka/json2go/releases/tag/${version}`}>
+							<Text component='a' color='dimmed' href={releaseURL}>
 								{version}
 							</Text>
 						)}
@@ -24,7 +29,7 @@ const AppHeader = () => {
 				</Group>
 				<MediaQuery smallerThan='xs' styles={{ display: 'none' }}>
 					<Group>
-						<ActionIcon component='a' href='https://github.com/alehechka/json2go-converter' radius='xl' size={28}>
+						<ActionIcon component='a' href={repoURL} radius='xl' size={28}>
 							<Github size={20} />
 						</ActionIcon>
 						<ThemeToggle />
@@ -36,14 +41,10 @@ const AppHeader = () => {
 							<ThemeToggle />
 						</Menu.Item>
 						<Divider />
-						<Menu.Item icon={<Github size={14} />} component='a' href='https://github.com/alehechka/json2go-converter'>
+						<Menu.Item icon={<Github size={14} />} component='a' href={repoURL}>
 							Repository
 						</Menu.Item>
-						<Menu.Item
-							icon={<GitCompare size={14} />}
-							component='a'
-							href={`https://github.com/alehechka/json2go/releases/tag/${version}`}
-						>
+						<Menu.Item icon={<GitCompare size={14} />} component='a' href={releaseURL}>
 							{loading ? <Loader variant='dots' /> : <Text color='dimmed'>{version}</Text>}
 						</Menu.Item>
 					</Menu>
