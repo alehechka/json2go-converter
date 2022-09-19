@@ -37,6 +37,7 @@ jobs:
         id: deployment
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          environment-url: https://json2go.dev
           environment: ${{ steps.environment.outputs.name }}
           initial-status: in_progress
 
