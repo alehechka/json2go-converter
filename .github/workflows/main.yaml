@@ -13,7 +13,7 @@ concurrency:
 jobs:
   build-deploy:
     name: Build and Deploy to Cloud Run
-    runs-on: ubuntu-latest
+    runs-on: self-hosted #ubuntu-latest
 
     permissions:
       contents: 'read'
@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
-        
+
       - name: Get Environment
         id: environment
         run: |
@@ -32,7 +32,7 @@ jobs:
           else
               echo "::set-output name=name::development"
           fi
-          
+
       - name: Create GitHub deployment
         uses: chrnorm/deployment-action@v2
         id: deployment
@@ -57,7 +57,7 @@ jobs:
           environment-url: ${{ steps.deploy.outputs.url }}
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
           state: 'success'
-          
+
       - name: Update deployment status (failure)
         if: failure()
         uses: chrnorm/deployment-status@v2
